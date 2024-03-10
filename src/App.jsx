@@ -1,22 +1,23 @@
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
 import Title from './components/Title'
+import './App.css'
 import {DndContext} from '@dnd-kit/core';
-import {Draggable} from './components/Draggable';
-import {Droppable} from './components/Droppable';
+import {Draggable} from './Draggable';
+import {Droppable} from './Droppable';
 
 function App() {
   const [count, setCount] = useState(0)
-  const [isDropped, setIsDropped] = useState(false)
+  const [parent, setParent] = useState(null)
+  const containers = ['A', 'B', 'C']
   const draggableMarkup = (
-    <Draggable>Drag me</Draggable>
+    <Draggable id="draggable">Drag me</Draggable>
   )
 
   return (
     <>
-      {/* <div>
+      <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -32,12 +33,14 @@ function App() {
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
-      </div> */}
+      </div>
       <DndContext onDragEnd={handleDragEnd}>
-        {!isDropped ? draggableMarkup : null}
-        <Droppable>
-          {isDropped ? draggableMarkup : 'Drop here'}
-        </Droppable>
+        {parent === null ? draggableMarkup : null}
+        {containers.map((id) => (
+          <Droppable key={id} id={id}>
+            {parent === id ? draggableMarkup : 'DROP HERE MADAFAKA'}
+          </Droppable>
+        ))}
       </DndContext>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
@@ -46,9 +49,8 @@ function App() {
   )
 
   function handleDragEnd(event) {
-    if (event.over && event.over.id === 'droppable'){
-      setIsDropped(true)
-    }
+    const {over} = event
+    setParent(over ? over.id : null)
   }
 }
 
