@@ -1,18 +1,39 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Title from './components/Title'
 import './App.css'
-import {DndContext} from '@dnd-kit/core';
-import {Draggable} from './Draggable';
-import {Droppable} from './Droppable';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { Draggable } from './Draggable';
+import { Droppable } from './Droppable';
+import { SortableItem } from './SortableItem';
+import {
+  restrictToVerticalAxis,
+  restrictToWindowEdges,
+} from '@dnd-kit/modifiers';
 
 function App() {
   const [count, setCount] = useState(0)
-  const [parent, setParent] = useState(null)
-  const containers = ['A', 'B', 'C']
-  const draggableMarkup = (
-    <Draggable id="draggable">Drag me</Draggable>
+
+  const [items, setItems] = useState(['1', '2', '3', '4', '5']);
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      corrdinateGetter: sortableKeyboardCoordinates,
+    })
   )
 
   return (
@@ -25,32 +46,40 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <Title />
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <DndContext onDragEnd={handleDragEnd}>
-        {parent === null ? draggableMarkup : null}
-        {containers.map((id) => (
-          <Droppable key={id} id={id}>
-            {parent === id ? draggableMarkup : 'DROP HERE MADAFAKA'}
-          </Droppable>
-        ))}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToWindowEdges, restrictToVerticalAxis]}
+      >
+        <SortableContext
+          items={items}
+          strategy={verticalListSortingStrategy}
+        >
+          {items.map(id =>
+            <SortableItem
+              key={id}
+              id={id}
+              onRemove={handleRemove}
+            />)}
+        </SortableContext>
       </DndContext>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 
+  function handleRemove(id) {
+    setItems((items) => items.filter((i) => i !== id))
+  }
+
   function handleDragEnd(event) {
-    const {over} = event
-    setParent(over ? over.id : null)
+    const { active, over } = event
+    if (active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.indexOf(active.id)
+        const newIndex = items.indexOf(over.id)
+        return arrayMove(items, oldIndex, newIndex)
+      })
+    }
   }
 }
 
