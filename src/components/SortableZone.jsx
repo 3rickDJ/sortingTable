@@ -6,16 +6,16 @@ import { SortableItem } from './SortableItem';
 import TableBody from '@mui/material/TableBody';
 
 export default function SortableZone(props) {
-  const { items, setItems } = props
+  const { items, setItems, currentTab } = props
 
   return (
     <>
         <SortableContext
-          items={items}
+          items={items.list[currentTab].items}
           strategy={verticalListSortingStrategy}
         >
         <TableBody>
-          {items.map(i =>
+          {items.list[currentTab].items.map(i =>
             <SortableItem
               {...i.attributes}
               key={i.id}
@@ -28,7 +28,20 @@ export default function SortableZone(props) {
   )
 
   function handleRemove(id) {
-    setItems((items) => items.filter((i) => i.id !== id))
+    setItems((items) => {
+      return ({
+        ...items,
+        list: items.list.map((group, index) => {
+          if (index === currentTab) {
+            return {
+              ...group,
+              items: group.items.filter(i => i.id !== id)
+            }
+          }
+          return group
+        })
+    })})
+  
   }
 
 }

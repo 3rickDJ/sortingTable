@@ -22,7 +22,7 @@ import { sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
 // read data from file json
 
 export default function TableHeader(props) {
-  const { items, setItems } = props
+  const { items, setItems, currentTab } = props
   const columns = [
     { id: 'id', label: 'id', minWidth: 170 },
     { id: 'name', label: 'Nombre', minWidth: 100 },
@@ -40,12 +40,23 @@ export default function TableHeader(props) {
 
   function handleDragEnd(event) {
     const { active, over } = event
-    console.log(event)
     if (active.id !== over.id) {
       setItems((items) => {
-        const oldIndex = items.findIndex(item => item.id === active.id)
-        const newIndex = items.findIndex(item => item.id === over.id)
-        return arrayMove(items, oldIndex, newIndex)
+        const oldIndex = items.list[currentTab].items.findIndex( i => i.id === active.id)
+        const newIndex = items.list[currentTab].items.findIndex( i => i.id === over.id)
+        const newArray = arrayMove(items.list[currentTab].items, oldIndex, newIndex)
+        return ({
+          ...items,
+          list: items.list.map((group, index) => {
+            if (index === currentTab) {
+              return {
+                ...group,
+                items: newArray
+              }
+            }
+            return group
+          })
+        })
       })
     }
   }
@@ -81,7 +92,7 @@ export default function TableHeader(props) {
               ))}
             </TableRow>
           </TableHead>
-          <SortableZone items={items} setItems={setItems} />
+          <SortableZone items={items} setItems={setItems} currentTab={currentTab} />
         </Table>
       </TableContainer>
     </DndContext>
