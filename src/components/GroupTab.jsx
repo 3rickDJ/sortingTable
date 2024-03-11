@@ -13,10 +13,10 @@ import Box from '@mui/material/Box';
 
 export default function GroupTabs (props) {
   const {
-    currentTab, setCurrentTab,
     testGroup, setTestGroup,
     fetchedData
   } = props
+  const [currentTab, setCurrentTab] = useState(0)
 
   const [open, setOpen] = useState(false)
   const [newTabName, setNewTabName] = useState('')
