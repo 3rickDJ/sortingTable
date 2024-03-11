@@ -22,17 +22,24 @@ const testGroupData = {
   ]
 }
 export default function App() {
-  const [items, setItems] = useState([]);
-  const fetchedTestData = fetchedData
-  const props = { items, setItems }
   const [testGroup, setTestGroup] = useState(testGroupData)
-  const [currentTab, setCurrentTab] = useState(1)
+  const [currentTab, setCurrentTab] = useState(0)
+  const condensedProps = {
+    currentTab,
+    setCurrentTab,
+    testGroup,
+    setTestGroup
+  }
 
   return (
     <>
-      <GroupTabs {...props} />
+      <GroupTabs
+      currentTab={currentTab}
+      setCurrentTab={setCurrentTab}
+      testGroup={testGroup}
+      setTestGroup={setTestGroup}
+      />
       <h1>Sortable List</h1>
-      <TableHeader currentTab={currentTab} items={testGroup} setItems={setTestGroup}/>
     </>
   )
 }
