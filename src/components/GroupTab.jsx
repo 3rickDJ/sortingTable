@@ -1,55 +1,79 @@
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import Typography from '@mui/material/Typography'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TableHeader from './TableHeader'
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
+import AddTestButton from './AddTestButton';
 
 
 export default function GroupTabs (props) {
-  const [tabs, setTabs] = useState([])
   const {
     currentTab, setCurrentTab,
-    testGroup, setTestGroup
+    testGroup, setTestGroup,
+    fetchedData
   } = props
 
 
-  const addTab = () => {
-    const newTabs = [...tabs, `Tab ${tabs.length + 1}`]
-    setTabs(newTabs)
-    setCurrentTab(newTabs.length - 1)
-  }
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue)
   }
-  const handleClose = (index) => {
-    const newTabs = tabs.filter((tab, i) => i !== index)
-    setTabs(newTabs)
-    setCurrentTab(newTabs.length - 1)
+
+  const addTab = () => {
+    const newTab = {
+      name: `Grupo ${testGroup.list.length + 1}`,
+      items: []
+    }
+    setTestGroup({ 
+      list: [...testGroup.list, newTab]
+    })
   }
+
+  const deleteTab = (index) => {
+    setCurrentTab(index === 0 ? 0 : index - 1)
+    setTestGroup({
+      list: testGroup.list.filter((_, i) => i !== index)
+    })
+  }
+  useEffect(() => {
+    const current = testGroup.list[currentTab].name
+    const items = testGroup.list[currentTab].items.map((item, index) => {
+      return (item.id)
+    })
+    console.log(`Current Tab: ${current} | Items: ${items}`)
+
+  },  [testGroup])
+
   return (
     <div>
+      <button onClick={addTab}>Add Tab</button>
+      <AddTestButton
+        testGroup={testGroup}
+        setTestGroup={setTestGroup}
+        currentTab={currentTab}
+        fetchedData={fetchedData}
+      />
       <Tabs value={currentTab} onChange={handleChange}>
-        {tabs.map((tab, index) => (
+        {testGroup.list.map((tab, index) => (
           <Tab key={index}  
             label={
               <div>
-                {tab}
-                <IconButton size='small' color="error"
-                  onClick={() => handleClose(index) }
-                  component="span"
-                >
-                  <DeleteIcon />
-                </IconButton>
+                {tab.name}
+                { index !== 0 ? (
+                  <IconButton onClick={() => deleteTab(index)} component="span">
+                    <DeleteIcon />
+                  </IconButton>
+                ) : null }
               </div>
             }
           />
         ))}
       </Tabs>
-      <Typography>{tabs[currentTab]}</Typography>
-      <TableHeader currentTab={currentTab} items={testGroup} setItems={setTestGroup} />
-      <button onClick={addTab}>Add Tab</button>
+      <TableHeader
+        items={testGroup}
+        setItems={setTestGroup}
+        currentTab={currentTab}
+      />
     </div>
   )
 }

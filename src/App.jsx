@@ -37,6 +37,7 @@ export default function App() {
       setCurrentTab={setCurrentTab}
       testGroup={testGroup}
       setTestGroup={setTestGroup}
+      fetchedData={fetchedData}
       />
     </>
   )
