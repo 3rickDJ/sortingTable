@@ -27,10 +27,10 @@ export default function GroupTabs (props) {
 
   const addTab = () => {
     const newTab = {
-      name: `Grupo ${testGroup.list.length + 1}`,
+      name: `${newTabName}`,
       items: []
     }
-    setTestGroup({ 
+    setTestGroup({
       list: [...testGroup.list, newTab]
     })
     setOpen(false)
