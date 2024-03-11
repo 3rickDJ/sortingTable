@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import AddTestButton from './AddTestButton';
 import { Dialog, DialogActions, DialogContent } from '@mui/material';
 import { TextField } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
 
 export default function GroupTabs (props) {
@@ -52,7 +54,28 @@ export default function GroupTabs (props) {
 
   return (
     <div>
-      <button onClick={() => setOpen(true)}>Agregar Grupo</button>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Grid
+          container
+          spacing={2}
+          direction="row"
+          justifyContent={"space-between"}
+        >
+          <Grid item>
+            <button onClick={() => setOpen(true)}>Agregar Grupo</button>
+
+          </Grid>
+          <Grid item>
+
+            <AddTestButton
+              testGroup={testGroup}
+              setTestGroup={setTestGroup}
+              currentTab={currentTab}
+              fetchedData={fetchedData}
+            />
+          </Grid>
+        </Grid>
+      </Box>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
@@ -67,29 +90,23 @@ export default function GroupTabs (props) {
         <DialogActions>
           <button onClick={() => setOpen(false)}>Cancelar</button>
           <button onClick={addTab}>Agregar</button>
-          </DialogActions>
+        </DialogActions>
       </Dialog>
 
-      <AddTestButton
-        testGroup={testGroup}
-        setTestGroup={setTestGroup}
-        currentTab={currentTab}
-        fetchedData={fetchedData}
-      />
       <Tabs value={currentTab} onChange={handleChange}>
         {testGroup.list.map((tab, index) => (
-          <Tab key={index}  
+          <Tab key={index}
             label={
               <div>
                 {tab.name}
-                { index !== 0 ? (
+                {index !== 0 ? (
                   <IconButton onClick={() => deleteTab(index)}
-                  component="span"
-                  disabled={currentTab !== index}
+                    component="span"
+                    disabled={currentTab !== index}
                   >
                     <DeleteIcon />
                   </IconButton>
-                ) : null }
+                ) : null}
               </div>
             }
           />
