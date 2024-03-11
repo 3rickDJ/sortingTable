@@ -10,6 +10,14 @@ const testGroupData = {
     {
       name: 'Grupo 1',
       items: stateData
+    },
+    {
+      name: 'Grupo 2',
+      items: fetchedData.slice(5, 8)
+    },
+    {
+      name: 'Grupo 3',
+      items: []
     }
   ]
 }
@@ -18,7 +26,7 @@ export default function App() {
   const fetchedTestData = fetchedData
   const props = { items, setItems }
   const [testGroup, setTestGroup] = useState(testGroupData)
-  const [currentTab, setCurrentTab] = useState(0)
+  const [currentTab, setCurrentTab] = useState(1)
 
   return (
     <>
