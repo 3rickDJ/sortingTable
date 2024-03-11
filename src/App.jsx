@@ -4,12 +4,11 @@ import TableHeader from './components/TableHeader'
 import data from '../testRawData.json';
 import GroupTabs from './components/GroupTab';
 const fetchedData = data.data
-const stateData = fetchedData.slice(4)
 const testGroupData = {
   list: [
     {
       name: 'Grupo 1',
-      items: stateData
+      items: fetchedData.slice(0, 5)
     },
     {
       name: 'Grupo 2',
@@ -39,7 +38,6 @@ export default function App() {
       testGroup={testGroup}
       setTestGroup={setTestGroup}
       />
-      <h1>Sortable List</h1>
     </>
   )
 }
