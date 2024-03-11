@@ -52,7 +52,7 @@ export default function GroupTabs (props) {
 
   return (
     <div>
-      <button onClick={() => setOpen(true)}>Add Tab</button>
+      <button onClick={() => setOpen(true)}>Agregar Grupo</button>
       <Dialog
         open={open}
         onClose={() => setOpen(false)}
