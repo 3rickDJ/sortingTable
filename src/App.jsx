@@ -7,15 +7,7 @@ const fetchedData = data.data
 const testGroupData = {
   list: [
     {
-      name: 'Grupo 1',
-      items: fetchedData.slice(0, 5)
-    },
-    {
-      name: 'Grupo 2',
-      items: fetchedData.slice(5, 8)
-    },
-    {
-      name: 'Grupo 3',
+      name: 'Pruebas',
       items: []
     }
   ]

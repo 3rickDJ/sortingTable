@@ -17,7 +17,7 @@ export function SortableItem(props) {
     transition,
   };
 
-  const { name, clave, description, abbreviation } = props
+  const { title, clave, description, abbreviation } = props
 
   return (
     <TableRow
@@ -26,7 +26,7 @@ export function SortableItem(props) {
       {...attributes}
     >
       <TableCell>{props.id}</TableCell>
-      <TableCell>{name}</TableCell>
+      <TableCell>{title}</TableCell>
       <TableCell >{clave}</TableCell>
       <TableCell>{abbreviation}</TableCell>
       <TableCell>

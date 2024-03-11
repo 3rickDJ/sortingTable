@@ -5,6 +5,8 @@ import TableHeader from './TableHeader'
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import AddTestButton from './AddTestButton';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
+import { TextField } from '@mui/material';
 
 
 export default function GroupTabs (props) {
@@ -14,6 +16,8 @@ export default function GroupTabs (props) {
     fetchedData
   } = props
 
+  const [open, setOpen] = useState(false)
+  const [newTabName, setNewTabName] = useState('')
 
   const handleChange = (event, newValue) => {
     setCurrentTab(newValue)
@@ -27,10 +31,12 @@ export default function GroupTabs (props) {
     setTestGroup({ 
       list: [...testGroup.list, newTab]
     })
+    setOpen(false)
+    setNewTabName('')
   }
 
   const deleteTab = (index) => {
-    setCurrentTab(index === 0 ? 0 : index - 1)
+    setCurrentTab( currentTab - 1)
     setTestGroup({
       list: testGroup.list.filter((_, i) => i !== index)
     })
@@ -42,11 +48,28 @@ export default function GroupTabs (props) {
     })
     console.log(`Current Tab: ${current} | Items: ${items}`)
 
-  },  [testGroup])
+  },  [testGroup, currentTab])
 
   return (
     <div>
-      <button onClick={addTab}>Add Tab</button>
+      <button onClick={() => setOpen(true)}>Add Tab</button>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <DialogContent>
+          <TextField
+            label="Nombre del grupo"
+            value={newTabName}
+            onChange={(e) => setNewTabName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <button onClick={() => setOpen(false)}>Cancelar</button>
+          <button onClick={addTab}>Agregar</button>
+          </DialogActions>
+      </Dialog>
+
       <AddTestButton
         testGroup={testGroup}
         setTestGroup={setTestGroup}
@@ -60,7 +83,10 @@ export default function GroupTabs (props) {
               <div>
                 {tab.name}
                 { index !== 0 ? (
-                  <IconButton onClick={() => deleteTab(index)} component="span">
+                  <IconButton onClick={() => deleteTab(index)}
+                  component="span"
+                  disabled={currentTab !== index}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 ) : null }

@@ -5,7 +5,6 @@ import TextField from "@mui/material/TextField";
 
 export default function AddTestButton(props) {
   const { testGroup, setTestGroup, currentTab, fetchedData } = props;
-  console.log(fetchedData)
   const addTest = (test) => {
     const newTestGroup = { ...testGroup };
     if (!test) return;
