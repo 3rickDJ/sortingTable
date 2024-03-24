@@ -4,7 +4,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import SortableZone from './SortableZone';
+import SortableZone from './SortableZone.jsx';
 import {
   restrictToVerticalAxis,
   restrictToWindowEdges,
@@ -24,12 +24,12 @@ import { sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
 export default function TableHeader(props) {
   const { items, setItems, currentTab } = props
   const columns = [
-    { id: 'id', label: 'id', minWidth: 170 },
-    { id: 'name', label: 'Nombre', minWidth: 100 },
-    { id: 'clave', label: 'Clave', minWidth: 100 },
-    { id: 'abbreviation', label: 'Abreviatura', minWidth: 100 },
-    { id: 'description', label: 'Descripción', minWidth: 100 },
-    { id: 'actions', label: 'Acciones', minWidth: 100}
+    { id: 'id', label: 'id', minwidth: 170 },
+    { id: 'name', label: 'nombre', minwidth: 100 },
+    { id: 'clave', label: 'clave', minwidth: 100 },
+    { id: 'abbreviation', label: 'abreviatura', minwidth: 100 },
+    { id: 'description', label: 'descripción', minwidth: 100 },
+    { id: 'actions', label: 'acciones', minwidth: 100}
   ]
   const sensors = useSensors(
     useSensor(PointerSensor),
