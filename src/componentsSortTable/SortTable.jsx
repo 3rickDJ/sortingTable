@@ -40,7 +40,6 @@ export default function SortTable(props) {
 
   const handleDelete = (test) => {
     let newTestGroup = [...sortOrder];
-    console.log(test)
     newTestGroup = newTestGroup.filter((item) => item.sortId !== test.sortId);
     setSortOrder(newTestGroup);
   }
@@ -53,10 +52,10 @@ export default function SortTable(props) {
 
   function handleDragEnd(event) {
     const { active, over } = event
-    if (active.sortId !== over.sortId) {
-      setItems((items) => {
-        const oldIndex = items.findIndex( i => i.sortId === active.sortId)
-        const newIndex = items.findIndex( i => i.sortId === over.sortId)
+    if (active.id !== over.id) {
+      setSortOrder((items) => {
+        const oldIndex = items.findIndex( i => i.sortId === active.id)
+        const newIndex = items.findIndex( i => i.sortId === over.id)
         const newArray = arrayMove(items, oldIndex, newIndex)
         return newArray
       })
