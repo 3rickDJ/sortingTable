@@ -1,7 +1,5 @@
 import axios from 'axios';
-import process from 'process';
-
-const API = process.env.NEXT_PUBLIC_API_CRM
+const API = "https://backend-laboratorio-crm-yjzvao2ewq-uc.a.run.app/"
 
 export default axios.create({
   baseURL: `${API}/api`,
