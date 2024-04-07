@@ -19,11 +19,16 @@ const deletePackages = (id) => {
 }
 
 const getPackages = (params = {}) => {
-  const { page, pageSize, sort, sortColumn, searchValue, onlyFees  } = params
+  const { page, pageSize, sort, sortColumn, searchValue, onlyFees, fetchForOrder  } = params
   const pagination = page ? `&pagination[page]=${page}&pagination[pageSize]=${pageSize}` : '&pagination[limit]=-1'
   const search = searchValue ? `&filters[$or][0][code][$containsi]=${searchValue}&filters[$or][1][title][$containsi]=${searchValue}&filters[$or][2][clave][$containsi]=${searchValue}&filters[$or][3][description][$containsi]=${searchValue}` : ''
   const statusFilter = page ? `&filters[status][$eq]=created` : ''
   const sortQuery = sortColumn ? `&sort=${sortColumn}:${sort}` : ''
+
+  if (fetchForOrder) return apiCrm({
+    url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&populate[feeConfigurations][fields][0]=id&populate[tests][fields][0]=id&populate[profiles][populate][tests][fields][0]=id&populate[profiles][fields][0]=id&fields[0]=clave&fields[1]=code&fields[2]=title&fields[3]=labInstructions&fields[4]=patientInstructions`,
+    method: 'GET',
+  })
 
   if (onlyFees) return apiCrm({
     url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&fields[0]=title&fields[1]=code&fields[2]=clave${pagination}`,

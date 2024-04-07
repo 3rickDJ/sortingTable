@@ -31,12 +31,20 @@ const getTest = (params = {}) => {
 
   const { searchValue, sort,
     sortColumn, page,
-    pageSize, onlyFees } = params
+    pageSize, onlyFees,
+    fetchForOrder
+  } = params
 
   const pagination = page ? `&pagination[page]=${page}&pagination[pageSize]=${pageSize}` : "&pagination[limit]=-1"
   const sorting = sortColumn ? `&sort=${sortColumn}:${sort}` : ""
 
   const search = searchValue ? `&filters[$or][0][title][$containsi]=${searchValue}&filters[$or][1][description][$containsi]=${searchValue}&filters[$or][2][clave][$containsi]=${searchValue}&filters[$or][3][section][sectionName][$containsi]=${searchValue}&filters[$or][4][clave][$containsi]=${searchValue}` : ''
+
+  if (fetchForOrder) return apiCrm({
+    url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&populate[feeConfigurations][fields][0]=id&populate[feeConfigurations][fields][1]=price&populate[typeSample][fields][0]=id&fields[0]=clave&fields[1]=code&fields[2]=title&fields[3]=labInstructions&fields[4]=patientInstructions&pagination[limit]=-1&filters[status][$eq]=created`,
+    method: 'GET',
+  })
+
 
   if (onlyFees) return apiCrm({
     url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&fields[0]=title&fields[1]=code&fields[2]=clave${pagination}`,
