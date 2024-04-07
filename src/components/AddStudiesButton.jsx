@@ -1,5 +1,6 @@
 import { Autocomplete } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { optionStructureParser } from "src/logic/order/utils";
 
 const TRANSLATIONS = { test: 'Prueba', package: 'Paquete', profile: 'Perfil'}
 
@@ -18,18 +19,21 @@ const renderOption = (props, option) => {
   );
 }
 const getOptionDisabled = (option) => { 
-  return option.feeConfigurations.length !== 0
+  return option.feeConfigurations.length === 0
 }
 
 
 export default function AddStudiesButton(props) {
 
-  const { selectedOptions, setSelectedOptions, options } = props;
+  const { selectedOptions, setSelectedOptions, options,
+      fees, selectedFee
+    } = props;
 
   const addTest = (study) => {
     if (!study) return;
     if (selectedOptions.some((item) => item.uid === study.uid)) return;
-    setSelectedOptions( (prev) => [...prev, study] );
+    const newStudy = optionStructureParser(study, selectedFee);
+    setSelectedOptions( (prev) => [...prev, newStudy] );
   };
   return (
     <Autocomplete
@@ -52,4 +56,6 @@ AddStudiesButton.propTypes = {
   selectedOptions: PropTypes.array.isRequired,
   setSelectedOptions: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
+  fees: PropTypes.array,
+  selectedFee: PropTypes.number.isRequired,
 };

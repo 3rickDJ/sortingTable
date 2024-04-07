@@ -1,0 +1,60 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "attributes": {
+                "abbreviation": "Publico General",
+                "description": "Publico General"
+            }
+        },
+        {
+            "id": 2,
+            "attributes": {
+                "abbreviation": "LACMOL",
+                "description": "LACMOL"
+            }
+        },
+        {
+            "id": 3,
+            "attributes": {
+                "abbreviation": "PRUEBA",
+                "description": "Prueba"
+            }
+        },
+        {
+            "id": 8,
+            "attributes": {
+                "abbreviation": "Otras",
+                "description": "nadaa"
+            }
+        },
+        {
+            "id": 9,
+            "attributes": {
+                "abbreviation": "vieja tarifa",
+                "description": null
+            }
+        },
+        {
+            "id": 10,
+            "attributes": {
+                "abbreviation": "Sprintaa",
+                "description": "asdfasfd"
+            }
+        },
+        {
+            "id": 11,
+            "attributes": {
+                "abbreviation": "PruebaSprint",
+                "description": "Tarifa para prueba"
+            }
+        }
+    ],
+    "meta": {
+        "pagination": {
+            "start": 0,
+            "limit": 500,
+            "total": 7
+        }
+    }
+}

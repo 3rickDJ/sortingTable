@@ -35,7 +35,6 @@ const standardize = (options, type) => {
       type: type,
       tests,
       profiles,
-      pickedFeeConfig: null,
     }
     
     if (type === 'package') {
@@ -57,5 +56,17 @@ const hashify = (options) => {
   }, {})
 }
 
+const optionStructureParser = (study, fee=null) => {
+  const isFeeInFeeConfigurations = study.feeConfigurations.some( feeConfiguration =>
+    feeConfiguration.fee.id === fee
+  );
+  if (isFeeInFeeConfigurations){
+    return ({ ...study, pickedFeeConfiguration: fee })
+  }else {
+    return ({ ...study, pickedFeeConfiguration: null })
+  }
+}
+
 export { hashify }
 export { standardize }
+export { optionStructureParser }

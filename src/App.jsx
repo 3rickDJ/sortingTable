@@ -7,6 +7,7 @@ import { getProfile } from './services/ProfileService';
 import { standardize, hashify } from 'src/logic/order/utils';
 import StudiesTable from "src/components/StudiesTable"
 import AddStudiesButton from 'src/components/AddStudiesButton';
+import FEES from 'src/data/fees.json';
 
 
 
@@ -20,6 +21,9 @@ export default function App() {
   // selected tests
   const [selectedStudies, setSelectedStudies] = useState([]);
   const [pendingSamples, setPendingSamples] = useState([]);
+
+  const fees = FEES.data;
+  const selectedFee = fees[0].id;
 
   const fetchgOptions = useCallback( async () => {
     try {
@@ -51,6 +55,8 @@ export default function App() {
                   selectedOptions={selectedStudies}
                   setSelectedOptions={setSelectedStudies}
                   options={[...packages, ...profiles, ...tests]}
+                  fees={fees}
+                  selectedFee={selectedFee}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -59,22 +65,23 @@ export default function App() {
                   testHashById={testsHash}
                   studies={selectedStudies}
                   setStudies={setSelectedStudies}
+                  hashedFees={hashify(fees)}
                 />
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            {tests.slice(0, 5).map((item, index) => {
+            {tests.map((item, index) => {
               return (<p key={index}>{JSON.stringify(item)}</p>)
             })
             }
             <hr />
-            {profiles.slice(0, 5).map((item, index) => {
+            {profiles.map((item, index) => {
               return (<p key={index}>{JSON.stringify(item)}</p>)
             })
             }
             <hr />
-            {packages.slice(0, 5).map((item, index) => {
+            {packages.map((item, index) => {
               return (<p key={index}>{JSON.stringify(item)}</p>)
             })
             }
