@@ -23,6 +23,7 @@ const standardize = (options, type) => {
       tests, profiles, typeSample
     } = attributes;
     const newOption = {
+      uid:type.concat(id),
       id,
       code,
       clave,

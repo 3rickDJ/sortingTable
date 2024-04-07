@@ -6,6 +6,7 @@ import { getPackages } from './services/PackageService';
 import { getProfile } from './services/ProfileService';
 import { standardize, hashify } from 'src/logic/order/utils';
 import StudiesTable from "src/components/StudiesTable"
+import AddStudiesButton from 'src/components/AddStudiesButton';
 
 
 
@@ -44,12 +45,23 @@ export default function App() {
       <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <StudiesTable
-              options={[...packages, ...profiles, ...tests]}
-              testHashById={testsHash}
-              studies={selectedStudies}
-              setStudies={setSelectedStudies}
-            />
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <AddStudiesButton
+                  selectedOptions={selectedStudies}
+                  setSelectedOptions={setSelectedStudies}
+                  options={[...packages, ...profiles, ...tests]}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <StudiesTable
+                  options={[...packages, ...profiles, ...tests]}
+                  testHashById={testsHash}
+                  studies={selectedStudies}
+                  setStudies={setSelectedStudies}
+                />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             {tests.slice(0, 5).map((item, index) => {

@@ -65,7 +65,7 @@ import PropTypes from 'prop-types';
 
 StudiesTable.propTypes = {
   options: PropTypes.array.isRequired,
-  testHashById: PropTypes.array.isRequired,
+  testHashById: PropTypes.object.isRequired,
   studies: PropTypes.array.isRequired,
   setStudies: PropTypes.func.isRequired,
 };
