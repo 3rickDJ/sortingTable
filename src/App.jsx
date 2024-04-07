@@ -5,13 +5,7 @@ import { getTest } from 'src/services/TestService';
 import { getPackages } from './services/PackageService';
 import { getProfile } from './services/ProfileService';
 import { standardize, hashify } from 'src/logic/order/utils';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import StudiesTable from "src/components/StudiesTable"
 
 
 
@@ -23,7 +17,9 @@ export default function App() {
   const [profiles, setProfiles] = useState([]);
 
   // selected tests
-  // const [selectedTest, setSelectedTest] = useState([]);
+  const [selectedStudies, setSelectedStudies] = useState([]);
+  const [pendingSamples, setPendingSamples] = useState([]);
+
   const fetchgOptions = useCallback( async () => {
     try {
       const responseTests = await getTest({ fetchForOrder: true});
@@ -48,19 +44,27 @@ export default function App() {
       <Container maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            {tests.slice(0,5).map( (item, index) => {
+            <StudiesTable
+              options={[...packages, ...profiles, ...tests]}
+              testHashById={testsHash}
+              studies={selectedStudies}
+              setStudies={setSelectedStudies}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            {tests.slice(0, 5).map((item, index) => {
               return (<p key={index}>{JSON.stringify(item)}</p>)
-              })
+            })
             }
-            <hr/>
-            {profiles.slice(0,5).map( (item, index) => {
+            <hr />
+            {profiles.slice(0, 5).map((item, index) => {
               return (<p key={index}>{JSON.stringify(item)}</p>)
-              })
+            })
             }
-            <hr/>
-            {packages.slice(0,5).map( (item, index) => {
+            <hr />
+            {packages.slice(0, 5).map((item, index) => {
               return (<p key={index}>{JSON.stringify(item)}</p>)
-              })
+            })
             }
           </Grid>
         </Grid>
