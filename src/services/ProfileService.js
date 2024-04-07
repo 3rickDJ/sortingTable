@@ -27,11 +27,16 @@ const updateProfile = (id, data) => {
 };
 
 const getProfile = (params = {}) => {
-  const { searchValue, sort, sortColumn, page, pageSize, onlyFees } = params
+  const { searchValue, sort, sortColumn, page, pageSize, onlyFees , fetchForOrder} = params
   const pagination = page ? `&pagination[page]=${page}&pagination[pageSize]=${pageSize}` : '&pagination[limit]=-1'
   const sorting = sortColumn ? `&sort=${sortColumn}:${sort}` : ""
   const search = searchValue ? `&filters[$or][0][title][$containsi]=${searchValue}&filters[$or][1][description][$containsi]=${searchValue}&filters[$or][2][code][$containsi]=${searchValue}&filters[$or][3][clave][$containsi]=${searchValue}` : ''
   const status = '&filters[status][$eq]=created'
+
+  if (fetchForOrder) return apiCrm({
+      url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&populate[feeConfigurations][populate][fee][fields][1]=abbreviation&populate[feeConfigurations][fields][0]=id&populate[feeConfigurations][fields][1]=price&populate[typeSample][fields][0]=id&populate[tests][fields][0]=id&populate[tests][fields][1]=clave&populate[tests][fields][2]=code&populate[tests][fields][3]=title&populate[tests][fields][4]=labInstructions&populate[tests][fields][5]=patientInstructions&fields[0]=clave&fields[1]=code&fields[2]=title&fields[3]=labInstructions&fields[4]=patientInstructions&pagination[limit]=-1&filters[status][$eq]=created`,
+    method: 'GET',
+  })
 
   if (onlyFees) return apiCrm({
     url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&fields[0]=title&fields[1]=code&fields[2]=clave${pagination}`,
@@ -62,7 +67,7 @@ const getProfileById = (id) => {
 const getProfileBySection = (sectionId) => {
   const filter = `filters[section]=${sectionId}`
   const limit = "&pagination[limit]=-1"
-  
+
   return apiCrm({
     url: `${PATH}?${filter}${limit}`,
     method: 'GET'
@@ -77,4 +82,4 @@ export {
   updateProfile,
   getProfileById,
   getProfileBySection
-} 
+}

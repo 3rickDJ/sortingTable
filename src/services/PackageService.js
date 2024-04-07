@@ -26,7 +26,7 @@ const getPackages = (params = {}) => {
   const sortQuery = sortColumn ? `&sort=${sortColumn}:${sort}` : ''
 
   if (fetchForOrder) return apiCrm({
-    url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&populate[feeConfigurations][fields][0]=id&populate[tests][fields][0]=id&populate[profiles][populate][tests][fields][0]=id&populate[profiles][fields][0]=id&fields[0]=clave&fields[1]=code&fields[2]=title&fields[3]=labInstructions&fields[4]=patientInstructions`,
+      url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&populate[feeConfigurations][populate][fee][fields][1]=abbreviation&populate[feeConfigurations][fields][0]=id&populate[feeConfigurations][fields][1]=price&populate[tests][fields][0]=id&populate[profiles][populate][tests][fields][0]=id&populate[profiles][fields][0]=id&populate[typeSample][fields][0]=id&fields[0]=clave&fields[1]=code&fields[2]=title&fields[3]=labInstructions&fields[4]=patientInstructions&pagination[limit]=-1&filters[status][$eq]=created`,
     method: 'GET',
   })
 
@@ -34,11 +34,11 @@ const getPackages = (params = {}) => {
     url: `${PATH}?populate[feeConfigurations][populate][fee][fields][0]=id&fields[0]=title&fields[1]=code&fields[2]=clave${pagination}`,
     method: 'GET',
   })
-  
+
   return apiCrm({
     url: `${PATH}?populate=*${pagination}${sortQuery}${search}${statusFilter}`,
     method: 'GET'
-  }) 
+  })
 }
 
 const updatePackage = (id, data) => {
@@ -67,7 +67,7 @@ const getPackageById = (id) => {
 const getPackageBySection = (sectionId) => {
   const filter = `filters[section]=${sectionId}`
   const limit = "&pagination[limit]=-1"
-  
+
   return apiCrm({
     url: `${PATH}?${filter}${limit}`,
     method: 'GET'
