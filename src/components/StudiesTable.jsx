@@ -7,8 +7,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { IconButton, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditDialog from 'src/components/EditDialog.jsx'
-import DetailsDialog from 'src/components/DetailsDialog';
+import EditDialog from './EditDialog.jsx'
+import DetailsDialog from './DetailsDialog';
 
 const handleDelete = (uid, setList) => {
   setList((prev) => prev.filter((item) => item.uid !== uid));
