@@ -20,7 +20,7 @@ export default function App() {
 
   // selected tests
   const [selectedStudies, setSelectedStudies] = useState([]);
-  const [pendingSamples, setPendingSamples] = useState([]);
+  // const [pendingSamples, setPendingSamples] = useState([]);
 
   const fees = FEES.data;
   const selectedFee = fees[0].id;
@@ -43,7 +43,6 @@ export default function App() {
     // eslint-disable-next-line
   }, []);
 
-  const testsHash = hashify(tests);
   return (
     <>
       <Container maxWidth="lg">
@@ -61,30 +60,14 @@ export default function App() {
               </Grid>
               <Grid item xs={12}>
                 <StudiesTable
-                  options={[...packages, ...profiles, ...tests]}
-                  testHashById={testsHash}
+                  testHashById={hashify(tests)}
                   studies={selectedStudies}
                   setStudies={setSelectedStudies}
                   hashedFees={hashify(fees)}
+                  profilesHashId={hashify(profiles)}
                 />
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            {tests.map((item, index) => {
-              return (<p key={index}>{JSON.stringify(item)}</p>)
-            })
-            }
-            <hr />
-            {profiles.map((item, index) => {
-              return (<p key={index}>{JSON.stringify(item)}</p>)
-            })
-            }
-            <hr />
-            {packages.map((item, index) => {
-              return (<p key={index}>{JSON.stringify(item)}</p>)
-            })
-            }
           </Grid>
         </Grid>
       </Container>

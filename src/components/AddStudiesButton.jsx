@@ -26,7 +26,7 @@ const getOptionDisabled = (option) => {
 export default function AddStudiesButton(props) {
 
   const { selectedOptions, setSelectedOptions, options,
-      fees, selectedFee
+      selectedFee
     } = props;
 
   const addTest = (study) => {

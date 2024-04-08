@@ -7,8 +7,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { IconButton, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import InfoIcon from '@mui/icons-material/Info';
 import EditDialog from 'src/components/EditDialog.jsx'
+import DetailsDialog from 'src/components/DetailsDialog';
 
 const handleDelete = (uid, setList) => {
   setList((prev) => prev.filter((item) => item.uid !== uid));
@@ -21,7 +21,7 @@ const getPrice = (row) => {
 export default function StudiesTable(props) {
 
   const { options, testHashById, studies, setStudies,
-    hashedFees
+    hashedFees, profilesHashId
   } = props;
   return (
     <>
@@ -66,9 +66,11 @@ export default function StudiesTable(props) {
                       <IconButton aria-label="delete" onClick={() => handleDelete(row.uid, setStudies)}>
                         <DeleteIcon />
                       </IconButton>
-                      <IconButton aria-label="info">
-                        <InfoIcon />
-                      </IconButton>
+                      <DetailsDialog
+                        row={row}
+                        testHashId={testHashById}
+                        profilesHashId={profilesHashId}
+                      />
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -86,9 +88,10 @@ export default function StudiesTable(props) {
 import PropTypes from 'prop-types';
 
 StudiesTable.propTypes = {
-  options: PropTypes.array.isRequired,
+  options: PropTypes.array,
   testHashById: PropTypes.object.isRequired,
   studies: PropTypes.array.isRequired,
   setStudies: PropTypes.func.isRequired,
   hashedFees: PropTypes.object.isRequired,
+  profilesHashId: PropTypes.object.isRequired
 };

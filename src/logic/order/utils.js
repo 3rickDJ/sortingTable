@@ -39,6 +39,7 @@ const standardize = (options, type) => {
     
     if (type === 'package') {
       newOption.profiles = flattenProfiles( profiles.data )
+      newOption.tests = tests.data.map( test => ({id: test.id, ...test.attributes}) )
     }
     if (type === 'profile') {
       newOption.tests = tests.data.map( test => ({id: test.id, ...test.attributes}) )
